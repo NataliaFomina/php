@@ -13,14 +13,18 @@ define('URL', 'https://www.googleapis.com/books/v1/volumes?q=');
 if(count($argv) < 2) {
   echo 'Введите название книги';
 }
+
 $query = urlencode(trim(implode(' ', array_slice($argv, 1))));
 $request = URL . $query . '&startIndex=0&maxResults=15';
+
 $booksData = file_get_contents($request);
 $booksData = json_decode($booksData, true);
+
 if(json_last_error() !== JSON_ERROR_NONE) {
   echo 'Ошибка данных!';
 }
-$fp = fopen('books.csv', 'a+');
+
+$resource = fopen('books/books.csv', 'a+');
 foreach ($booksData['items'] as $item) {
   $book = [];
   $book[] = $item['id'];
@@ -30,9 +34,9 @@ foreach ($booksData['items'] as $item) {
   } else {
     $book[] = 'NULL';
   }
-  fputcsv($fp, $book);
+  fputcsv($resource, $book);
 }
-fclose($fp);
+fclose($resource);
   
 ?>
 </body>
