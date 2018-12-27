@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "question": "Сколько граммов в одном килограмме?",
+    "answers": [
+      {
+        "answer": 10,
+        "isTrue": false
+      },
+      {
+        "answer": 100,
+        "isTrue": false
+      },
+      {
+        "answer": 1000,
+        "isTrue": true
+      },
+      {
+        "answer": 10000,
+        "isTrue": false
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "question": "Сколько метров в одном дециметре?",
+    "answers": [
+      {
+        "answer": 100,
+        "isTrue": false
+      },
+      {
+        "answer": 10,
+        "isTrue": false
+      },
+      {
+        "answer": 0.1,
+        "isTrue": true
+      },
+      {
+        "answer": 0.01,
+        "isTrue": false
+      }
+    ]
+  }
+]
