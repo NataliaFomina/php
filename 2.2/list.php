@@ -1,8 +1,18 @@
 <?php 
-$json = file_get_contents("tmp/test1.json");
-$jsonData = json_decode($json, true);
-// var_dump($jsonData);
-
+$files = glob('tmp/*.json');
+$message = "";
+if (count($files) === 0) {
+  $message = 'Нет загруженных тестов';
+} else {
+  $tests = [];
+  foreach($files as $file) {
+    $name = explode('/',$file)[1];
+    $json = file_get_contents("tmp/$name");
+    $jsonData = json_decode($json, true);
+    $jsonData['fileName'] = explode('.',$name)[0];
+    $tests[] = $jsonData;
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +26,13 @@ $jsonData = json_decode($json, true);
 <body>
 <a href="admin.php">Загрузка тестов</a>
 <h2>Список тестов</h2>
-<a href="test.php?file=test1">Тест 1</a>
+<ol>
+<?php 
+foreach ($tests as $test) { ?>
+  <li><a href="test.php?fileName=<?php echo $test['fileName']?>"><?php echo $test['title']?></a></li>
+<?php } ?>
+</ol>
+<p><?php echo $message ?></p>
   
 </body>
 </html>
