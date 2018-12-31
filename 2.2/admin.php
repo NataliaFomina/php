@@ -4,10 +4,18 @@ if (!empty($_FILES)) {
   if (array_key_exists('test', $_FILES)) {
     if ($_FILES['test']['type'] === 'application/json') {
       if ($_FILES['test']['error'] === 0) {
-        if (move_uploaded_file($_FILES['test']['tmp_name'], 'tmp/test1.json')) {
-          $message ='Файл успешно загружен';
+        $name = $_FILES['test']['name'];
+        $files = glob('tmp/*.json');
+        $result = inFiles($files, $name);
+        
+        if (!isset($result)) {
+          if (move_uploaded_file($_FILES['test']['tmp_name'], 'tmp/' . $name)) {
+            $message ='Файл успешно загружен';
+          } else {
+            $message = 'Файл не был загружен';
+          }
         } else {
-          $message = 'Файл не был загружен';
+          $message ='Файл c таким именем уже загружен';
         }
       } else {
         $message = 'Ошибка в файле';
@@ -20,13 +28,17 @@ if (!empty($_FILES)) {
   }
 }
 
-
-$files = glob('tmp/*.json');
-print_r($files);
-
-
-// проверять есть ли файл с таким именем
-// давать название файлу
+function inFiles($files, $name) 
+{
+  $result;
+  foreach($files as $file) {
+    $nameOfFile = explode('/', $file)[1];
+    if ($nameOfFile === $name) {
+      $result = true;
+    }
+  }
+  return $result;
+}
 ?>
 
 <!DOCTYPE html>
