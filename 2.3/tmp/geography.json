@@ -1,0 +1,49 @@
+{
+  "title": "Георгафия",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Какое государство самое маленькое в мире?",
+      "answers": [
+        {
+          "answer": "Лихтенштейн",
+          "isTrue": false
+        },
+        {
+          "answer": "Ватикан",
+          "isTrue": true
+        },
+        {
+          "answer": "Монако",
+          "isTrue": false
+        },
+        {
+          "answer": "Андорра",
+          "isTrue": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "У какой из перечисленных стран наибольшая площадь территории?",
+      "answers": [
+        {
+          "answer": "Россия",
+          "isTrue": true
+        },
+        {
+          "answer": "Китай",
+          "isTrue": false
+        },
+        {
+          "answer": "Канада",
+          "isTrue": false
+        },
+        {
+          "answer": "США",
+          "isTrue": false
+        }
+      ]
+    }
+  ]
+}
