@@ -1,0 +1,49 @@
+{
+  "title": "Мир животных",
+  "questions": [
+    {
+      "id": 1,
+      "question": "Как называется жилище волка?",
+      "answers": [
+        {
+          "answer": "Берлога",
+          "isTrue": false
+        },
+        {
+          "answer": "Логово",
+          "isTrue": true
+        },
+        {
+          "answer": "Нора",
+          "isTrue": false
+        },
+        {
+          "answer": "Гнездо",
+          "isTrue": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "question": "Какое из этих животных не бывает ангорской породы?",
+      "answers": [
+        {
+          "answer": "Кошка",
+          "isTrue": false
+        },
+        {
+          "answer": "Коза",
+          "isTrue": false
+        },
+        {
+          "answer": "Собака",
+          "isTrue": true
+        },
+        {
+          "answer": "Кролик",
+          "isTrue": false
+        }
+      ]
+    }
+  ]
+}
