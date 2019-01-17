@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
 <?php
 
 if ( (count($argv) <= 2 && $argv[1] !== '--today') ) {
@@ -20,7 +11,7 @@ if ( (count($argv) <= 2 && $argv[1] !== '--today') ) {
 // функция расходов за день
 function costsOfDay($argv) 
 {
-  $resource = fopen('money/money.csv', 'r');
+  $resource = fopen('money.csv', 'r');
   $data = [];
   // скачиваем данные
   while (!feof($resource)) {
@@ -59,6 +50,4 @@ function addCosts($argv)
   echo "Добавлена строка: $data[0], $data[1], $data[2]";
 }
 ?>
-    
-</body>
-</html>
+
