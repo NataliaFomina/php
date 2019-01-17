@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
 <?php
   if(count($argv) === 1) {
-    echo 'Напишите название страны';
+    exit('Напишите название страны');
   }
 
   $url = 'https://data.gov.ru/opendata/7704206201-country/data-20180609T0649-structure-20180609T0649.csv?encoding=UTF-8';
@@ -49,5 +40,4 @@
   }
   
 ?>
-</body>
-</html>
+
