@@ -1,13 +1,19 @@
 <?php
 $pdo = new PDO("mysql:host=localhost;dbname=global;charset=UTF8", "nfomina", "neto1914");
+print
 $author = isset($_GET['author']) ? $_GET['author'] : '%';
 $name = isset($_GET['name']) ? $_GET['name'] : '%';
 $isbn = isset($_GET['isbn']) ? $_GET['isbn'] : '%';
-$sql = "SELECT * FROM books WHERE author LIKE '%$author%' AND name LIKE '%$name%' AND isbn LIKE '%$isbn%'";
-$sth = $pdo->query($sql);
+
+$sql = "SELECT * FROM books WHERE author LIKE :author AND name LIKE :name AND isbn LIKE :isbn";
+$sth = $pdo->prepare($sql);
+$sth->execute(array(
+  'author' => "%$author%",
+  'name' => "%$name%",
+  'isbn' => "%$isbn%"
+));
 $result = $sth->fetchAll(PDO::FETCH_ASSOC);
 // print_r($result);
-
 ?>
 
 <!DOCTYPE html>
@@ -30,10 +36,10 @@ $result = $sth->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 <br>
-<form method="GET" action="sql_books.php">
-  <input type="text" name="isbn" placeholder="ISBN" value="<?php echo $author === '%' ? '' : $author?>">
+<form method="GET" action="sql.php">
+  <input type="text" name="author" placeholder="ISBN" value="<?php echo $author === '%' ? '' : $author?>">
   <input type="text" name="name" placeholder="Название книги" value="<?php echo $name === '%' ? '' : $name?>">
-  <input type="text" name="author" placeholder="Автор книги" value="<?php echo $isbn === '%' ? '' : $isbn?>">
+  <input type="text" name="isbn" placeholder="Автор книги" value="<?php echo $isbn === '%' ? '' : $isbn?>">
   <input type="submit" value="Поиск">
 </form>
 <br>
