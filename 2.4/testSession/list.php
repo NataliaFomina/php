@@ -1,5 +1,11 @@
-<?php 
+<?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 session_start();
+include ('core/functions.php');
+rediredt();
 
 if (isset($_SESSION['admin']) && count($_POST) !== 0) {
   if (file_exists('../testSession/tmp/')) {
@@ -12,11 +18,11 @@ if (isset($_SESSION['admin']) && count($_POST) !== 0) {
     }
   }
 }
-
 $files = glob('tmp/*.json');
 $message = "";
 if (count($files) === 0) {
   $message = 'Нет загруженных тестов';
+  $tests = [];
 } else {
   $tests = [];
   foreach($files as $file) {
@@ -27,7 +33,6 @@ if (count($files) === 0) {
     $tests[] = $jsonData;
   }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +49,11 @@ if (count($files) === 0) {
   <a href="admin.php">Загрузка тестов</a>
 <?php  } 
 ?>
+
+<form action="core/logout.php" method="POST" style="display: inline">
+  <input type="submit" value="Выйти из аккаунта">
+</form>
+
 <h2>Список тестов</h2>
 <ol>
 <?php 

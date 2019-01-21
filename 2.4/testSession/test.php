@@ -1,5 +1,13 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 session_start();
+include ('core/functions.php');
+rediredt();
+
+$message = '';
 
 function getJson($name) 
 {
@@ -7,13 +15,10 @@ function getJson($name)
     header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
     exit('Ошибка 404. Файл отсутствует');
   }
-
   $files = glob('tmp/*.json');
   $jsonName;
-
   foreach($files as $file) {
     $fileName = explode('.', explode('/', $file)[1])[0];
-
     if ($fileName === $name) {
       $jsonName = "$name.json" ;
     }
@@ -24,7 +29,6 @@ function getJson($name)
   // print_r($json);
   return $json;
 }
-
 if (!empty($_GET)) {
   $name = $_GET['fileName'];
   $json = getJson($name);
@@ -35,10 +39,10 @@ if (!empty($_POST)) {
   $name = $_POST['fileName'];
   $json = getJson($name);
   $result = [];
+  $ansTrue = 0;
 
   foreach($json['questions'] as $questions) {
     $arr['question'] = $questions['question'];
-
     foreach($_POST as $key => $value ) {
       if ($key === $questions['id']) {
         $arr['userAnswer'] = $value;
@@ -51,12 +55,22 @@ if (!empty($_POST)) {
     }
     $result[] = $arr;
   }
+ 
+  foreach($result as $question) {
+    if (strval($question['userAnswer']) === strval($question['trueAnswer'])) {
+      $ansTrue++; 
+    }
+  }
+
+  $questions = count($json['questions']);
+  $mark = calcMark($questions, $ansTrue);
+
   if ((count($_POST)-1) === count($json['questions'])) {
     $allAnswers = true;
   } else {
     $message = 'Ответьте на все вопросы';
   }
-  // print_r($result);
+
 }
 
 if (isset($_SESSION['guest'])) {
@@ -64,7 +78,6 @@ if (isset($_SESSION['guest'])) {
 } elseif (isset($_SESSION['admin'])) {
   $userName = $_SESSION['admin'];
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -76,18 +89,33 @@ if (isset($_SESSION['guest'])) {
   <title>Test</title>
 </head>
 <body>
+
 <?php 
   if (isset($_SESSION['admin'])) { ?>
   <a href="admin.php">Загрузка тестов</a>
 <?php  } 
 ?>
-<a href="list.php">Список тестов</a>
-<h3>Тема теста: "<?php echo $json['title']?>"</h3>
+<a href="list.php">Список тестов</a> 
+
+<form action="core/logout.php" method="POST" style="display: inline">
+  <input type="submit" value="Выйти из аккаунта">
+</form>
+
+
+<?php
+if (isset($json)) { ?>
+    <h3>Тема теста: "<?php echo $json['title']?>"</h3>
+<?php } else { ?>
+    <p>Перейдите к списку тестов</p>
+<?php }
+?>
+
+
 <form action="test.php" method="POST">
 
 <input type="hidden" name="fileName" value="<?php echo $json['fileName']?>"/>
 <?php
-if (empty($_POST)) { ?>
+if (empty($_POST) && isset($json)) { ?>
 <?php   foreach ($json['questions'] as $question) { ?>
     <legend><?php echo $question['question']?></legend>
     <?php foreach ($question['answers'] as $answer) { ?>
@@ -115,7 +143,7 @@ if (!empty($_POST) && isset($allAnswers)) { ?>
   <p>Ваш ответ: <?php echo $item['userAnswer']?></p>
   <p>Правильный ответ: <?php echo $item['trueAnswer']?></p>
   <?php } ?>
-  <img src="img.php?name=<?php echo $userName?>&result=<?php echo '5 баллов'?>" alt="">
+  <img src="core/img.php?name=<?php echo $userName?>&result=<?php echo $mark .' баллов'?>" alt="">
 <?php } else { ?>
   <p><?php echo $message?></p>
   <?php }

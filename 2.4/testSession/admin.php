@@ -1,11 +1,18 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 session_start();
+include ('core/functions.php');
+rediredt();
+
 if (isset($_SESSION['guest'])) {
   header($_SERVER['SERVER_PROTOCOL'] . ' Ошибка 403');
   exit('Ошибка 403');
 }
 
-$message;
+$message =  '';
 if (!empty($_FILES)) {
   if (array_key_exists('test', $_FILES)) {
     if ($_FILES['test']['type'] === 'application/json') {
@@ -34,7 +41,6 @@ if (!empty($_FILES)) {
     $message = 'Файл не был отправлен';
   }
 }
-
 function inFiles($files, $name) 
 {
   $result;
@@ -58,6 +64,11 @@ function inFiles($files, $name)
 </head>
 <body>
 <a href="list.php">Список тестов</a>
+
+<form action="core/logout.php" method="POST" style="display: inline">
+  <input type="submit" value="Выйти из аккаунта">
+</form>
+
 <h2>Страница загрузки тестов</h2>
 <form action="admin.php" method="POST" enctype="multipart/form-data">
   <div><input type="file" name="test"></div>

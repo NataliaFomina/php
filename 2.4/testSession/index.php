@@ -1,4 +1,8 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 session_start();
 $message = " ";
 
@@ -6,9 +10,8 @@ if (isset($_POST['username'], $_POST['password'])) {
   // print_r($_POST);
   $username = $_POST['username'];
   $password = $_POST['password'];
-
-  if (file_exists('login.json')) {
-    $file = file_get_contents('login.json', true);
+  if (file_exists('core/users/login.json')) {
+    $file = file_get_contents('core/users/login.json', true);
     $users = json_decode($file, true);
     foreach ($users as $user) {
       if ($user['name'] === $username  && $user['password'] === $password) {
@@ -20,12 +23,10 @@ if (isset($_POST['username'], $_POST['password'])) {
     }
   }
 }
-
 if (isset($_POST['guestname'])) {
   $_SESSION['guest'] = $_POST['guestname'];
   header('Location: list.php');
 }
-
 ?>
 
 
